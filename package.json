@@ -1,0 +1,39 @@
+{
+  "name": "@vakao-ui/scripts-utils",
+  "version": "0.0.1",
+  "description": "Vakao-UI 脚本工具库（颜色、图标、横幅、日志、工具函数）",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "prepare": "pnpm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "vakao-ui",
+    "scripts",
+    "utils",
+    "colors",
+    "icons",
+    "banner",
+    "logger"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@types/node": "^20.11.30",
+    "tsup": "^8.0.1"
+  },
+  "packageManager": "pnpm@10.21.0"
+}
