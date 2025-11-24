@@ -27,7 +27,7 @@ export const icons: Record<LogType, string> = {
   command: "🔧",
 
   /** 构建操作图标 - 用于项目构建过程 */
-  build: "🏗️",
+  build: "🛠️",
 
   /** 发布操作图标 - 用于包发布过程 */
   publish: "📦",
