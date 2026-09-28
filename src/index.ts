@@ -46,26 +46,26 @@
  * console.log(`${colors.green}成功${colors.reset}`);
  * ```
  *
- * @version 2.0.0
+ * @version 0.0.1
  * @author Vakao UI Team
  */
 
 // ==================== 模块导入 ====================
 
 /** 颜色和样式配置 */
-import { colors, typeColors } from "./colors.js";
+import { colors, typeColors } from './colors.js';
 
 /** 图标配置 */
-import { icons } from "./icons.js";
+import { icons } from './icons.js';
 
 /** 横幅显示功能 */
-import { asciiArt, createBanner, showBanner } from "./banner.js";
+import { asciiArt, createBanner, showBanner } from './banner.js';
 
 /** 日志记录功能 */
-import { log } from "./logger.js";
+import { log } from './logger.js';
 
 /** 通用工具函数 */
-import { separator, showSuccess, handleError } from "./utils.js";
+import { separator, showSuccess, handleError } from './utils.js';
 
 // ==================== 统一导出 ====================
 

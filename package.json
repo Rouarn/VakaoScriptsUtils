@@ -1,6 +1,6 @@
 {
   "name": "@vakao-ui/scripts-utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Vakao-UI 脚本工具库（颜色、图标、横幅、日志、工具函数）",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -12,9 +12,18 @@
       "require": "./dist/index.js"
     }
   },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --clean",
-    "prepare": "pnpm run build"
+    "prepare": "pnpm run build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "demo": "node scripts/demo.mjs"
   },
   "files": [
     "dist"
@@ -28,12 +37,24 @@
     "banner",
     "logger"
   ],
-  "author": "",
+  "author": "Vakao UI Team",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vakao-ui/scripts-utils.git"
+  },
+  "homepage": "https://github.com/vakao-ui/scripts-utils#readme",
+  "bugs": {
+    "url": "https://github.com/vakao-ui/scripts-utils/issues"
+  },
   "devDependencies": {
     "typescript": "^5.6.3",
     "@types/node": "^20.11.30",
-    "tsup": "^8.0.1"
-  },
-  "packageManager": "pnpm@10.21.0"
+    "tsup": "^8.0.1",
+    "eslint": "^9.0.0",
+    "@eslint/js": "^9.0.0",
+    "typescript-eslint": "^8.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.0"
+  }
 }

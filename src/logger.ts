@@ -1,69 +1,92 @@
 /**
  * 日志记录模块
+ *
+ * 提供格式化的日志输出，包含固定格式时间戳（HH:MM:SS）、类型图标、
+ * 类型颜色与消息内容。支持多行消息的缩进对齐，保证后续行与首行
+ * 消息内容垂直对齐，避免输出错位。
  */
 
-import type { LogType } from "./types.js";
-import { colors, typeColors } from "./colors.js";
-import { icons } from "./icons.js";
+import type { LogType } from './types.js';
+import { colors, typeColors } from './colors.js';
+import { icons } from './icons.js';
+
+/**
+ * 时间戳后空格的固定宽度
+ *
+ * `[HH:MM:SS]` 占 10 字符，后接 1 个空格，共 11 字符。
+ * 多行消息的非首行使用此宽度的空格做缩进对齐。
+ */
+const TIMESTAMP_PREFIX_WIDTH = 11;
+
+/**
+ * 生成固定格式的时间戳字符串 HH:MM:SS
+ *
+ * 不依赖 locale，保证跨机器/CI 输出一致。
+ *
+ * @returns 形如 `16:23:45` 的时间字符串
+ */
+function getTimestamp(): string {
+  const now = new Date();
+  return [now.getHours(), now.getMinutes(), now.getSeconds()]
+    .map((n) => String(n).padStart(2, '0'))
+    .join(':');
+}
 
 /**
  * 美化日志输出
  *
- * 输出格式化的日志消息，包含时间戳、图标、颜色和消息内容。
- * 支持智能换行处理，保持输出格式的整洁性。
+ * 输出格式：`[HH:MM:SS] 图标 消息`，时间戳为暗淡样式，消息按类型着色。
  *
- * 输出格式：[时间戳] 图标 消息内容
+ * 多行消息处理：
+ * - 首尾换行保留为前后空行（与历史行为一致）
+ * - 消息内部的换行不做硬合并，后续行缩进对齐到时间戳之后，
+ *   保证多行内容垂直对齐
  *
- * @param {string} message - 要输出的日志消息
- * @param {string} [type='info'] - 日志类型，决定图标和颜色
- *   可选值：'info', 'success', 'warning', 'error', 'command', 'build',
- *          'publish', 'deploy', 'check', 'copy', 'clean'
+ * @param message - 要输出的日志消息
+ * @param type - 日志类型，决定图标和颜色（默认 'info'）
  *
  * @example
  * ```javascript
- * // 基础用法
  * log('应用启动成功', 'success');
  * // 输出：[14:30:25] ✅ 应用启动成功
  *
- * // 带换行符的消息
- * log('\n开始执行任务\n', 'info');
- * // 会在消息前后添加空行
+ * log('第一行\n第二行\n第三行', 'info');
+ * // 多行内容垂直对齐到时间戳右侧
  *
- * // 错误日志
  * log('文件不存在', 'error');
  * // 输出：[14:30:25] ❌ 文件不存在
  *
- * // 构建日志
  * log('正在编译 TypeScript 文件', 'build');
- * // 输出：[14:30:25] 🏗️ 正在编译 TypeScript 文件
+ * // 输出：[14:30:25] 🛠️ 正在编译 TypeScript 文件
  * ```
  */
-export function log(message: string, type: LogType = "info"): void {
-  // 获取当前时间戳
-  const timestamp: string = new Date().toLocaleTimeString();
+export function log(message: string, type: LogType = 'info'): void {
+  const timestamp = getTimestamp();
+  const icon = icons[type] || icons.info;
+  const color = typeColors[type] || typeColors.info;
 
-  // 获取对应类型的图标和颜色
-  const icon: string = icons[type] || icons.info;
-  const color: string = typeColors[type] || typeColors.info;
+  const startsWithNewline = message.startsWith('\n');
+  const endsWithNewline = message.endsWith('\n');
 
-  // 检查消息开头是否有换行符
-  const startsWithNewline: boolean = message.startsWith("\n");
-  // 检查消息结尾是否有换行符
-  const endsWithNewline: boolean = message.endsWith("\n");
+  // 移除首尾换行（由我们控制前后空行），保留内部换行
+  const cleanMessage = message.replace(/^\n+|\n+$/g, '');
 
-  // 移除消息中的换行符，由我们来控制换行
-  const cleanMessage: string = message.replace(/^\n+|\n+$/g, "");
+  // 多行消息：非首行缩进对齐到时间戳之后
+  const indent = ' '.repeat(TIMESTAMP_PREFIX_WIDTH);
+  const indentedMessage = cleanMessage
+    .split('\n')
+    .map((line, index) => (index === 0 ? line : indent + line))
+    .join('\n');
 
-  // 如果开头有换行符，先打印换行
   if (startsWithNewline) {
-    console.log("");
+    console.log('');
   }
 
-  // 打印主要内容
-  console.log(`${colors.dim}[${timestamp}]${colors.reset} ${icon} ${color}${cleanMessage}${colors.reset}`);
+  console.log(
+    `${colors.dim}[${timestamp}]${colors.reset} ${icon} ${color}${indentedMessage}${colors.reset}`,
+  );
 
-  // 如果结尾有换行符，后打印换行
   if (endsWithNewline) {
-    console.log("");
+    console.log('');
   }
 }
