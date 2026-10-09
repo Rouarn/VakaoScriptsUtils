@@ -10,8 +10,8 @@
 import type { LogType } from './types.js';
 
 export const icons: Record<LogType, string> = {
-  /** 信息提示图标 - 对话气泡，用于一般信息输出 */
-  info: '\u{1F4AC}',
+  /** 信息提示图标 - 备忘录，用于一般信息输出 */
+  info: '\u{1F4DD}',
 
   /** 成功状态图标 - 白色勾选，用于操作成功提示 */
   success: '\u{2705}',
