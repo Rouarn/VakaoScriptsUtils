@@ -27,6 +27,23 @@ describe('banner 与 showSuccess 对齐', () => {
     expect(displayWidth(decoration)).toBe(46);
   });
 
+  it('超长标题/消息不会越过装饰线', () => {
+    const bannerTitle = stripAnsi(createBanner('长'.repeat(40)))
+      .split('\n')
+      .find((line) => line.includes('长'))!;
+    expect(displayWidth(bannerTitle.trim())).toBeLessThanOrEqual(46);
+
+    const out: string[] = [];
+    const original = console.log;
+    console.log = (...args: unknown[]) => out.push(args.map(String).join(' '));
+    showSuccess('a'.repeat(70));
+    console.log = original;
+
+    const messageLine = stripAnsi(out[1]);
+    expect(displayWidth(messageLine.trim())).toBeLessThanOrEqual(60);
+    expect(messageLine.endsWith('…')).toBe(true);
+  });
+
   it('showSuccess 的左右留白相等（emoji 按 2 列计）', () => {
     const output = stripAnsi(
       (() => {

@@ -71,7 +71,7 @@ import { log } from './logger.js';
 import { separator, showSuccess, handleError } from './utils.js';
 
 /** 终端显示宽度计算 */
-import { displayWidth, padEndDisplay, stripAnsi } from './width.js';
+import { displayWidth, padEndDisplay, stripAnsi, truncateDisplay } from './width.js';
 
 // ==================== 类型导出 ====================
 
@@ -187,3 +187,9 @@ export { displayWidth };
  * @type {Function}
  */
 export { padEndDisplay };
+
+/**
+ * 按显示宽度截断字符串（超出部分以省略号代替）
+ * @type {Function}
+ */
+export { truncateDisplay };

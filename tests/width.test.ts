@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { displayWidth, icons, padEndDisplay, stripAnsi } from '../src/index.js';
+import { displayWidth, icons, padEndDisplay, stripAnsi, truncateDisplay } from '../src/index.js';
 
 describe('displayWidth', () => {
   it('ASCII 字符按 1 列计算', () => {
@@ -41,5 +41,12 @@ describe('displayWidth', () => {
     expect(displayWidth(padEndDisplay('中文', 10))).toBe(10);
     expect(displayWidth(padEndDisplay('abc', 10))).toBe(10);
     expect(padEndDisplay('abcdef', 3)).toBe('abcdef');
+  });
+
+  it('truncateDisplay 不超过目标宽度且保留省略号', () => {
+    expect(displayWidth(truncateDisplay('a'.repeat(70), 10))).toBe(10);
+    expect(truncateDisplay('a'.repeat(70), 10)).toBe('a'.repeat(9) + '…');
+    expect(displayWidth(truncateDisplay('中文标题'.repeat(10), 11))).toBe(11);
+    expect(truncateDisplay('短', 10)).toBe('短');
   });
 });

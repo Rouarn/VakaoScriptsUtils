@@ -6,7 +6,7 @@
  */
 
 import { colors } from './colors.js';
-import { displayWidth } from './width.js';
+import { displayWidth, truncateDisplay } from './width.js';
 
 /**
  * VAKAO UI ASCII 艺术字原始行（纯文本，无 ANSI）
@@ -58,9 +58,11 @@ export function asciiArt(): string {
  * @returns 居中后的字符串（左填充空格）
  */
 function centerTitle(title: string, width: number): string {
-  const tw = displayWidth(title);
+  // 超长标题按显示宽度截断，避免溢出装饰线
+  const fitted = truncateDisplay(title, width);
+  const tw = displayWidth(fitted);
   const padding = Math.max(0, Math.floor((width - tw) / 2));
-  return ' '.repeat(padding) + title;
+  return ' '.repeat(padding) + fitted;
 }
 
 /**

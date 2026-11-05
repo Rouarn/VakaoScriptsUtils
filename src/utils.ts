@@ -9,7 +9,7 @@ import { writeSync } from 'node:fs';
 
 import { colors } from './colors.js';
 import { LINE_WIDTH } from './constants.js';
-import { displayWidth } from './width.js';
+import { displayWidth, truncateDisplay } from './width.js';
 import { formatLog } from './logger.js';
 
 /**
@@ -59,7 +59,8 @@ export function separator(char: string = '─', length: number = LINE_WIDTH): vo
  */
 export function showSuccess(message: string): void {
   const line = '═'.repeat(LINE_WIDTH);
-  const fullMessage = `🎉 ${message} 🎉`;
+  // 超长消息按显示宽度截断，保证消息行不会越过上下装饰线
+  const fullMessage = truncateDisplay(`🎉 ${message} 🎉`, LINE_WIDTH);
   const padding = Math.max(0, Math.floor((LINE_WIDTH - displayWidth(fullMessage)) / 2));
   const centered = ' '.repeat(padding) + fullMessage;
 

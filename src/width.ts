@@ -185,3 +185,33 @@ export function padEndDisplay(input: string, width: number): string {
   const padding = Math.max(0, width - displayWidth(input));
   return input + ' '.repeat(padding);
 }
+
+/**
+ * 按显示宽度截断字符串，超出部分以省略号代替
+ *
+ * 逐字符累加并实时计算宽度，避免把 CJK 或 emoji 截成半格；
+ * 输入中的 ANSI 转义序列会先被剥离（截断只用于纯文本场景）。
+ *
+ * @param input - 待截断的字符串
+ * @param maxWidth - 最大显示宽度
+ * @param ellipsis - 省略号，默认 `…`
+ * @returns 显示宽度不超过 maxWidth 的字符串
+ */
+export function truncateDisplay(input: string, maxWidth: number, ellipsis = '…'): string {
+  if (displayWidth(input) <= maxWidth) {
+    return input;
+  }
+
+  const ellipsisWidth = displayWidth(ellipsis);
+  const budget = Math.max(0, maxWidth - ellipsisWidth);
+  let result = '';
+
+  for (const char of stripAnsi(input)) {
+    if (displayWidth(result + char) > budget) {
+      break;
+    }
+    result += char;
+  }
+
+  return result + ellipsis;
+}
