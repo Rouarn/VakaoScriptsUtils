@@ -17,7 +17,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "build": "tsup",
     "prepare": "pnpm run build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
