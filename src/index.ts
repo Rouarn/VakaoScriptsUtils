@@ -67,6 +67,16 @@ import { log } from './logger.js';
 /** 通用工具函数 */
 import { separator, showSuccess, handleError } from './utils.js';
 
+// ==================== 类型导出 ====================
+
+/**
+ * 对外类型契约
+ *
+ * LogType 是 log/icons/typeColors 的唯一参数类型，Colors 是 colors 的键集合。
+ * 消费方需要在自己的封装函数中标注这两个类型，因此必须从入口导出。
+ */
+export type { LogType, Colors } from './types.js';
+
 // ==================== 统一导出 ====================
 
 /**
