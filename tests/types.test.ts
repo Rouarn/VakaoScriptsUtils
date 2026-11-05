@@ -1,7 +1,7 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
 
 import type { Colors, LogType } from '../src/index.js';
-import { colors, icons, log, typeColors } from '../src/index.js';
+import { colors, icons, log, typeColorLabels, typeColors } from '../src/index.js';
 import { isColorEnabled } from '../src/index.js';
 
 describe('公开类型契约', () => {
@@ -29,13 +29,16 @@ describe('公开类型契约', () => {
   });
 
   it('三个映射表的键集合一致', () => {
-    expect(Object.keys(icons).sort()).toEqual(Object.keys(typeColors).sort());
+    const expected = Object.keys(icons).sort();
+    expect(Object.keys(typeColors).sort()).toEqual(expected);
+    expect(Object.keys(typeColorLabels).sort()).toEqual(expected);
   });
 
   it('颜色与图标映射被冻结，消费方无法污染全局状态', () => {
     expect(Object.isFrozen(colors)).toBe(true);
     expect(Object.isFrozen(icons)).toBe(true);
     expect(Object.isFrozen(typeColors)).toBe(true);
+    expect(Object.isFrozen(typeColorLabels)).toBe(true);
     expect(() => {
       // 类型层面 Colors 仍是可写接口，这里验证的是运行时冻结
       colors.green = 'x';

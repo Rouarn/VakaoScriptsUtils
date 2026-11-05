@@ -2,4 +2,5 @@ dist/
 node_modules/
 pnpm-lock.yaml
 .trae/
-*.md
+# 手写变更日志，保持人工排版（其余 Markdown 均由 Prettier 统一格式）
+CHANGELOG.md

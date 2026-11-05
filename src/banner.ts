@@ -6,6 +6,7 @@
  */
 
 import { colors } from './colors.js';
+import { installPipeGuard } from './stream.js';
 import { displayWidth, truncateDisplay } from './width.js';
 
 /**
@@ -102,5 +103,6 @@ ${colors.dim}${line}${colors.reset}
  * ```
  */
 export function showBanner(title: string): void {
+  installPipeGuard();
   console.log(createBanner(title));
 }

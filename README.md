@@ -29,19 +29,12 @@ npm i @vakao-ui/scripts-utils
 ## ESM 使用
 
 ```ts
-import {
-  log,
-  showBanner,
-  showSuccess,
-  separator,
-  colors,
-  icons,
-} from "@vakao-ui/scripts-utils";
+import { log, showBanner, showSuccess, separator, colors, icons } from '@vakao-ui/scripts-utils';
 
-showBanner("Vakao UI 构建工具");
-log("开始构建项目", "build");
-separator("═", 60);
-showSuccess("所有任务完成");
+showBanner('Vakao UI 构建工具');
+log('开始构建项目', 'build');
+separator('═', 60);
+showSuccess('所有任务完成');
 console.log(`${colors.green}成功${colors.reset}`, icons.success);
 console.log(`${colors.bgRed}错误${colors.reset} ${colors.underline}下划线${colors.reset}`);
 ```
@@ -56,12 +49,12 @@ const {
   separator,
   colors,
   icons,
-} = require("@vakao-ui/scripts-utils");
+} = require('@vakao-ui/scripts-utils');
 
-showBanner("Vakao UI 构建工具");
-log("开始构建项目", "build");
-separator("═", 60);
-showSuccess("所有任务完成");
+showBanner('Vakao UI 构建工具');
+log('开始构建项目', 'build');
+separator('═', 60);
+showSuccess('所有任务完成');
 console.log(`${colors.green}成功${colors.reset}`, icons.success);
 console.log(`${colors.bgRed}错误${colors.reset} ${colors.underline}下划线${colors.reset}`);
 ```
@@ -96,11 +89,11 @@ console.log(`${colors.bgRed}错误${colors.reset} ${colors.underline}下划线${
 
 图标全集（11 个 LogType，全部纯 emoji 无 VS）：
 
-| 类型 | 图标 | 类型 | 图标 | 类型 | 图标 | 类型 | 图标 |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| info | 💬 | success | ✅ | warning | 🟡 | error | ❌ |
-| command | 🔧 | build | 🔨 | publish | 📦 | deploy | 🚀 |
-| check | 🔍 | copy | 📋 | clean | 🧹 | | |
+| 类型    | 图标 | 类型    | 图标 | 类型    | 图标 | 类型   | 图标 |
+| ------- | ---- | ------- | ---- | ------- | ---- | ------ | ---- |
+| info    | 💬   | success | ✅   | warning | 🟡   | error  | ❌   |
+| command | 🔧   | build   | 🔨   | publish | 📦   | deploy | 🚀   |
+| check   | 🔍   | copy    | 📋   | clean   | 🧹   |        |      |
 
 成功结束消息（上下装饰线宽度 60，消息居中）：
 

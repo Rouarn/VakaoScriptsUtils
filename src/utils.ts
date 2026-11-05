@@ -11,6 +11,7 @@ import { colors } from './colors.js';
 import { LINE_WIDTH } from './constants.js';
 import { displayWidth, truncateDisplay } from './width.js';
 import { formatLog } from './logger.js';
+import { installPipeGuard } from './stream.js';
 
 /**
  * 显示分隔线
@@ -33,6 +34,7 @@ import { formatLog } from './logger.js';
  * ```
  */
 export function separator(char: string = '─', length: number = LINE_WIDTH): void {
+  installPipeGuard();
   // 负数/NaN 会让 String.repeat 抛 RangeError，这里统一钳到合法范围；
   // 多字符入参只取首个码点，避免重复后宽度被放大。
   const unit = [...char][0] ?? '─';
@@ -62,6 +64,7 @@ export function separator(char: string = '─', length: number = LINE_WIDTH): vo
  * ```
  */
 export function showSuccess(message: string): void {
+  installPipeGuard();
   const line = '═'.repeat(LINE_WIDTH);
   // 超长消息按显示宽度截断，保证消息行不会越过上下装饰线
   const fullMessage = truncateDisplay(`🎉 ${message} 🎉`, LINE_WIDTH);
@@ -80,11 +83,12 @@ export function showSuccess(message: string): void {
  * "[object Object]"，因此优先取 Error.message，对象则尝试 JSON 序列化。
  *
  * @param error - 任意错误值
+ * @param includeStack - Error 是否输出 stack（默认 false，只取 message）
  * @returns 可读的错误描述
  */
-function describeError(error: unknown): string {
+function describeError(error: unknown, includeStack = false): string {
   if (error instanceof Error) {
-    return error.message;
+    return includeStack ? (error.stack ?? error.message) : error.message;
   }
   if (typeof error === 'string') {
     return error;
@@ -110,10 +114,11 @@ function describeError(error: unknown): string {
  * 错误处理函数
  *
  * 统一的错误处理机制：同步写出错误信息到 stderr 并终止程序执行。
- * 仅输出错误消息正文，不展开 stack，避免输出噪音。
+ * 默认只输出错误消息正文；排查问题时可通过 options.stack 展开堆栈。
  *
  * @param message - 错误描述信息
  * @param error - 任意错误值（Error、字符串、普通对象均可）
+ * @param options - 输出选项，`stack: true` 时对 Error 追加堆栈
  * @throws 此函数会调用 process.exit(1) 终止程序
  *
  * @example
@@ -123,10 +128,18 @@ function describeError(error: unknown): string {
  * } catch (error) {
  *   handleError('读取配置文件失败', error);
  * }
+ *
+ * // 需要堆栈时
+ * handleError('读取配置文件失败', error, { stack: true });
  * ```
  */
-export function handleError(message: string, error: unknown): never {
-  const detail = describeError(error);
+export function handleError(
+  message: string,
+  error: unknown,
+  options: { stack?: boolean } = {},
+): never {
+  installPipeGuard();
+  const detail = describeError(error, options.stack ?? false);
   const text = formatLog(`${message}: ${detail}`, 'error');
 
   // 用 fs.writeSync 同步写入 fd 2：不经过流缓冲，也不依赖事件循环，

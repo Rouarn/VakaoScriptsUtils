@@ -10,6 +10,7 @@ import type { LogType } from './types.js';
 import { colors, typeColors } from './colors.js';
 import { LOG_PREFIX_WIDTH } from './constants.js';
 import { icons } from './icons.js';
+import { installPipeGuard } from './stream.js';
 
 /**
  * 生成固定格式的时间戳字符串 HH:MM:SS
@@ -54,6 +55,7 @@ function getTimestamp(): string {
  * ```
  */
 export function log(message: string, type: LogType = 'info'): void {
+  installPipeGuard();
   const timestamp = getTimestamp();
   const icon = icons[type] || icons.info;
   const color = typeColors[type] || typeColors.info;
