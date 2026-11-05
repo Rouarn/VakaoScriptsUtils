@@ -5,7 +5,7 @@ Vakao-UI 脚本工具库：统一提供颜色、图标、横幅展示、日志�
 
 ## 特性
 
-- 统一日志与样式：`log`、`colors`、`icons`、`typeColors`
+- 统一日志与样式：`log`、`colors`、`icons`、`typeColors`、`typeColorLabels`
 - 横幅展示：`showBanner`、`createBanner`、`asciiArt`、`asciiArtPlain`
 - 常用工具：`separator`、`showSuccess`、`handleError`
 - 丰富的 ANSI 样式：8 种前景色 + 8 种亮色变体 + 8 种背景色 + 5 种文本样式（下划线/斜体/删除线/反转/隐藏）
@@ -136,6 +136,7 @@ console.log(`${colors.bgRed}错误${colors.reset} ${colors.underline}下划线${
   - 背景色：`bgBlack` `bgRed` `bgGreen` `bgYellow` `bgBlue` `bgMagenta` `bgCyan` `bgWhite`
   - 文本样式：`underline` `italic` `strikethrough` `reverse` `hidden`
 - `typeColors: Record<LogType, string>` — 日志类型对应颜色
+- `typeColorLabels: Record<LogType, string>` — 日志类型对应颜色中文名（与 `typeColors` 同源）
 - `icons: Record<LogType, string>` — 日志类型对应 Emoji 图标
 
 ## 兼容性说明

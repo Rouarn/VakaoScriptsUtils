@@ -56,7 +56,7 @@
 // ==================== 模块导入 ====================
 
 /** 颜色和样式配置 */
-import { colors, typeColors } from './colors.js';
+import { colors, typeColors, typeColorLabels } from './colors.js';
 
 /** 图标配置 */
 import { icons } from './icons.js';
@@ -106,6 +106,12 @@ export { colors };
  * @type {Object}
  */
 export { typeColors };
+
+/**
+ * 日志类型对应的颜色中文名（与 typeColors 同源，供展示/文档使用）
+ * @type {Object}
+ */
+export { typeColorLabels };
 
 // ==================== 图标配置 ====================
 /**

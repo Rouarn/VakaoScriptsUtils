@@ -35,7 +35,8 @@
     "prepublishOnly": "pnpm run lint && pnpm run format:check && pnpm run typecheck && pnpm test && pnpm run build",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "demo": "node scripts/demo.mjs"
+    "demo": "node scripts/demo.mjs",
+    "predemo": "pnpm run build"
   },
   "files": [
     "dist",

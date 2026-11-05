@@ -143,6 +143,34 @@ const TYPE_COLOR_KEYS: Record<LogType, keyof Colors> = {
 };
 
 /**
+ * 颜色键对应的中文名称（仅用于展示，不参与着色）
+ */
+const COLOR_LABELS: Partial<Record<keyof Colors, string>> = {
+  black: '黑色',
+  red: '红色',
+  green: '绿色',
+  yellow: '黄色',
+  blue: '蓝色',
+  magenta: '品红',
+  cyan: '青色',
+  white: '白色',
+};
+
+/**
+ * 日志类型对应的颜色中文名
+ *
+ * 与 typeColors 共用同一份 TYPE_COLOR_KEYS，避免新增类型时只改一处导致展示失真。
+ */
+export const typeColorLabels: Record<LogType, string> = Object.freeze(
+  Object.fromEntries(
+    (Object.keys(TYPE_COLOR_KEYS) as LogType[]).map((type) => [
+      type,
+      COLOR_LABELS[TYPE_COLOR_KEYS[type]] ?? String(TYPE_COLOR_KEYS[type]),
+    ]),
+  ) as Record<LogType, string>,
+);
+
+/**
  * 日志类型对应的颜色映射
  *
  * 为不同类型的日志消息定义标准颜色，确保输出的一致性。

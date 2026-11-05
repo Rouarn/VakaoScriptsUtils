@@ -2,7 +2,7 @@
  * Vakao-UI 脚本工具库 - 预览脚本
  *
  * 依次展示所有功能的实际输出效果，便于一眼查看样式与对齐情况。
- * 运行：pnpm run demo（需先 pnpm run build 生成 dist/）
+ * 运行：pnpm run demo（predemo 会自动先构建 dist/）
  */
 
 import {
@@ -13,6 +13,7 @@ import {
   colors,
   icons,
   typeColors,
+  typeColorLabels,
   asciiArt,
   createBanner,
   padEndDisplay,
@@ -92,19 +93,6 @@ allTypes.forEach((t, i) => {
 
 // ==================== 8. typeColors 与 icons 组合（对齐表格） ====================
 console.log('\n------ typeColors 与 icons 组合 ------');
-const colorNames = {
-  info: '蓝色',
-  success: '绿色',
-  warning: '黄色',
-  error: '红色',
-  command: '青色',
-  build: '品红',
-  publish: '绿色',
-  deploy: '品红',
-  check: '黄色',
-  copy: '青色',
-  clean: '品红',
-};
 const typeCol = 10;
 const colorCol = 8;
 console.log(
@@ -114,7 +102,7 @@ console.log(`  ${'─'.repeat(4)}  ${'─'.repeat(typeCol)}  ${'─'.repeat(colo
 for (const t of allTypes) {
   const iconCell = padEndDisplay(icons[t], 4);
   const typeCell = padEndDisplay(t, typeCol);
-  const colorCell = padEndDisplay(colorNames[t], colorCol);
+  const colorCell = padEndDisplay(typeColorLabels[t], colorCol);
   console.log(`  ${iconCell}  ${typeColors[t]}${typeCell}${colors.reset}  ${colorCell}`);
 }
 
