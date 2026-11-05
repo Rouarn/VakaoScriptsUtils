@@ -1,6 +1,6 @@
 {
   "name": "@vakao-ui/scripts-utils",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Vakao-UI 脚本工具库（颜色、图标、横幅、日志、工具函数）",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
