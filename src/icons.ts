@@ -9,7 +9,7 @@
 
 import type { LogType } from './types.js';
 
-export const icons: Record<LogType, string> = {
+export const icons: Record<LogType, string> = Object.freeze({
   /** 信息提示图标 - 备忘录，用于一般信息输出 */
   info: '\u{1F4DD}',
 
@@ -42,4 +42,4 @@ export const icons: Record<LogType, string> = {
 
   /** 清理操作图标 - 扫帚，用于清理和删除操作 */
   clean: '\u{1F9F9}',
-};
+});

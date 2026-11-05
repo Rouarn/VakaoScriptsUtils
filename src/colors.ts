@@ -99,16 +99,18 @@ const RAW_COLORS: Colors = {
  * 属性以 getter 形式暴露：每次访问都会按 NO_COLOR / FORCE_COLOR / TTY
  * 重新求值，不支持颜色的环境下返回空串，调用方无需自己判断。
  */
-export const colors: Colors = Object.defineProperties(
-  {},
-  Object.fromEntries(
-    (Object.keys(RAW_COLORS) as Array<keyof Colors>).map((key) => [
-      key,
-      {
-        enumerable: true,
-        get: () => (isColorEnabled() ? RAW_COLORS[key] : ''),
-      },
-    ]),
+export const colors: Colors = Object.freeze(
+  Object.defineProperties(
+    {},
+    Object.fromEntries(
+      (Object.keys(RAW_COLORS) as Array<keyof Colors>).map((key) => [
+        key,
+        {
+          enumerable: true,
+          get: () => (isColorEnabled() ? RAW_COLORS[key] : ''),
+        },
+      ]),
+    ),
   ),
 ) as Colors;
 
@@ -146,15 +148,17 @@ const TYPE_COLOR_KEYS: Record<LogType, keyof Colors> = {
  * 为不同类型的日志消息定义标准颜色，确保输出的一致性。
  * 同样以 getter 形式暴露，保证与 colors 的终端能力判定保持一致。
  */
-export const typeColors: Record<LogType, string> = Object.defineProperties(
-  {},
-  Object.fromEntries(
-    (Object.keys(TYPE_COLOR_KEYS) as LogType[]).map((type) => [
-      type,
-      {
-        enumerable: true,
-        get: () => colors[TYPE_COLOR_KEYS[type]],
-      },
-    ]),
+export const typeColors: Record<LogType, string> = Object.freeze(
+  Object.defineProperties(
+    {},
+    Object.fromEntries(
+      (Object.keys(TYPE_COLOR_KEYS) as LogType[]).map((type) => [
+        type,
+        {
+          enumerable: true,
+          get: () => colors[TYPE_COLOR_KEYS[type]],
+        },
+      ]),
+    ),
   ),
 ) as Record<LogType, string>;
