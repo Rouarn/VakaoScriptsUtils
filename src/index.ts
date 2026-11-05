@@ -59,7 +59,10 @@ import { colors, typeColors } from './colors.js';
 import { icons } from './icons.js';
 
 /** 横幅显示功能 */
-import { asciiArt, createBanner, showBanner } from './banner.js';
+import { asciiArt, asciiArtPlain, createBanner, showBanner } from './banner.js';
+
+/** 终端颜色能力判定 */
+import { isColorEnabled } from './color-support.js';
 
 /** 日志记录功能 */
 import { log } from './logger.js';
@@ -110,10 +113,22 @@ export { icons };
 
 // ==================== 横幅功能 ====================
 /**
- * ASCII 艺术字
- * @type {string}
+ * 带青色的 ASCII 艺术字（函数形式，颜色能力运行期判定）
+ * @type {Function}
  */
 export { asciiArt };
+
+/**
+ * 纯文本 ASCII 艺术字（无 ANSI，便于自定义着色）
+ * @type {string}
+ */
+export { asciiArtPlain };
+
+/**
+ * 当前终端是否支持颜色（NO_COLOR / FORCE_COLOR / TTY）
+ * @type {Function}
+ */
+export { isColorEnabled };
 
 /**
  * 创建带标题的横幅

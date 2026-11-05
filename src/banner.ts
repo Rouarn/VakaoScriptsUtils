@@ -15,19 +15,29 @@ import { displayWidth } from './width.js';
 const BANNER_WIDTH = 44;
 
 /**
- * VAKAO UI ASCII 艺术字
+ * VAKAO UI ASCII 艺术字（纯文本，无 ANSI）
  *
- * 使用 figlet Standard 字体生成，5 行宽度严格相等（44 字符）。
- * 采用青色加粗样式突出显示，作为脚本输出的品牌标识。
- *
+ * 使用 figlet Standard 字体生成，5 行。
  * 使用 String.raw 避免反斜杠转义破坏 figlet 字形。
  */
-export const asciiArt: string = String.raw`${colors.cyan}${colors.bright}
+export const asciiArtPlain: string = String.raw`
  __     ___    _  __    _    ___    _   _ ___
  \ \   / / \  | |/ /   / \  / _ \  | | | |_ _|
   \ \ / / _ \ | ' /   / _ \| | | | | | | || |
    \ V / ___ \| . \  / ___ \ |_| | | |_| || |
-    \_/_/   \_\_|\_\/_/   \_\___/   \___/|___|${colors.reset}`;
+    \_/_/   \_\_|\_\/_/   \_\___/   \___/|___|`;
+
+/**
+ * 带青色的 ASCII 艺术字
+ *
+ * 刻意做成函数而非常量：颜色能力（NO_COLOR / FORCE_COLOR / TTY）是运行期
+ * 判定的，若在模块加载时就拼好常量，会把当时的颜色状态固化成快照。
+ *
+ * @returns 着色后的艺术字
+ */
+export function asciiArt(): string {
+  return `${colors.cyan}${colors.bright}${asciiArtPlain}${colors.reset}`;
+}
 
 /**
  * 将标题按指定宽度居中
@@ -59,7 +69,7 @@ function centerTitle(title: string, width: number): string {
  */
 export function createBanner(title: string): string {
   const line = '═'.repeat(BANNER_WIDTH);
-  return `${asciiArt}
+  return `${asciiArt()}
 ${colors.magenta}${colors.bright}${centerTitle(title, BANNER_WIDTH)}${colors.reset}
 ${colors.dim}${line}${colors.reset}
 `;

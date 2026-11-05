@@ -129,6 +129,6 @@ const detail = fakeError instanceof Error ? fakeError.message : fakeError;
 log(`读取配置文件失败: ${detail}`, 'error');
 
 console.log('\n------ asciiArt 常量 ------');
-console.log(asciiArt);
+console.log(asciiArt());
 
 console.log('\n演示完成 ✨');

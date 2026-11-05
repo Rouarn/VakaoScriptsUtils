@@ -7,14 +7,14 @@
  */
 
 import type { Colors, LogType } from './types.js';
+import { isColorEnabled } from './color-support.js';
 
 /**
- * ANSI 颜色和样式代码配置
+ * ANSI 颜色码原始值（内部）
  *
- * 所有值为 ANSI 转义序列字符串，可通过字符串拼接组合使用。
- * 使用后请务必附加 `colors.reset` 重置样式，避免影响后续输出。
+ * 只作为数据源使用：对外暴露的 colors 会根据终端能力动态返回这些值或空串。
  */
-export const colors: Colors = {
+const RAW_COLORS: Colors = {
   // 基础样式
   /** 重置所有样式和颜色 */
   reset: '\x1b[0m',
@@ -91,32 +91,70 @@ export const colors: Colors = {
 };
 
 /**
+ * ANSI 颜色和样式代码配置
+ *
+ * 所有值为 ANSI 转义序列字符串，可通过字符串拼接组合使用。
+ * 使用后请务必附加 `colors.reset` 重置样式，避免影响后续输出。
+ *
+ * 属性以 getter 形式暴露：每次访问都会按 NO_COLOR / FORCE_COLOR / TTY
+ * 重新求值，不支持颜色的环境下返回空串，调用方无需自己判断。
+ */
+export const colors: Colors = Object.defineProperties(
+  {},
+  Object.fromEntries(
+    (Object.keys(RAW_COLORS) as Array<keyof Colors>).map((key) => [
+      key,
+      {
+        enumerable: true,
+        get: () => (isColorEnabled() ? RAW_COLORS[key] : ''),
+      },
+    ]),
+  ),
+) as Colors;
+
+/**
+ * 日志类型对应的颜色键（内部）
+ */
+const TYPE_COLOR_KEYS: Record<LogType, keyof Colors> = {
+  /** 信息类型 - 蓝色 */
+  info: 'blue',
+  /** 成功类型 - 绿色 */
+  success: 'green',
+  /** 警告类型 - 黄色 */
+  warning: 'yellow',
+  /** 错误类型 - 红色 */
+  error: 'red',
+  /** 命令类型 - 青色 */
+  command: 'cyan',
+  /** 构建类型 - 品红色 */
+  build: 'magenta',
+  /** 发布类型 - 绿色 */
+  publish: 'green',
+  /** 部署类型 - 品红色 */
+  deploy: 'magenta',
+  /** 检查类型 - 黄色 */
+  check: 'yellow',
+  /** 复制类型 - 青色 */
+  copy: 'cyan',
+  /** 清理类型 - 品红色 */
+  clean: 'magenta',
+};
+
+/**
  * 日志类型对应的颜色映射
  *
  * 为不同类型的日志消息定义标准颜色，确保输出的一致性。
- * 遵循通用的颜色语义约定。
+ * 同样以 getter 形式暴露，保证与 colors 的终端能力判定保持一致。
  */
-export const typeColors: Record<LogType, string> = {
-  /** 信息类型 - 蓝色 */
-  info: colors.blue,
-  /** 成功类型 - 绿色 */
-  success: colors.green,
-  /** 警告类型 - 黄色 */
-  warning: colors.yellow,
-  /** 错误类型 - 红色 */
-  error: colors.red,
-  /** 命令类型 - 青色 */
-  command: colors.cyan,
-  /** 构建类型 - 品红色 */
-  build: colors.magenta,
-  /** 发布类型 - 绿色 */
-  publish: colors.green,
-  /** 部署类型 - 品红色 */
-  deploy: colors.magenta,
-  /** 检查类型 - 黄色 */
-  check: colors.yellow,
-  /** 复制类型 - 青色 */
-  copy: colors.cyan,
-  /** 清理类型 - 品红色 */
-  clean: colors.magenta,
-};
+export const typeColors: Record<LogType, string> = Object.defineProperties(
+  {},
+  Object.fromEntries(
+    (Object.keys(TYPE_COLOR_KEYS) as LogType[]).map((type) => [
+      type,
+      {
+        enumerable: true,
+        get: () => colors[TYPE_COLOR_KEYS[type]],
+      },
+    ]),
+  ),
+) as Record<LogType, string>;
