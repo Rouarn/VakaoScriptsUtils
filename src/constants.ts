@@ -7,11 +7,6 @@
  */
 
 /**
- * 横幅艺术字与标题的宽度（figlet Standard "VAKAO UI" 输出宽度）
- */
-export const BANNER_WIDTH = 44;
-
-/**
  * 分隔线与成功提示的装饰线宽度
  */
 export const LINE_WIDTH = 60;

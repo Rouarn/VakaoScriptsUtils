@@ -68,7 +68,7 @@ console.log(`${colors.bgRed}错误${colors.reset} ${colors.underline}下划线${
 
 ## 输出预览
 
-横幅（ASCII 艺术字基于 figlet Standard 字体，5 行宽度严格相等，标题动态居中）：
+横幅（ASCII 艺术字基于 figlet Standard 字体，5 行统一补齐到 46 列，标题动态居中）：
 
 ```
  __     ___    _  __    _    ___    _   _ ___

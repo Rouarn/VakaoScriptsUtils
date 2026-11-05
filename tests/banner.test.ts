@@ -11,12 +11,20 @@ describe('banner 与 showSuccess 对齐', () => {
     delete process.env.NO_COLOR;
   });
 
-  it('createBanner 的标题按 44 列居中', () => {
+  it('createBanner 的标题按 46 列居中，装饰线与字形等宽', () => {
     const output = stripAnsi(createBanner('自定义横幅'));
-    const titleLine = output.split('\n').find((line) => line.includes('自定义横幅'))!;
+    const lines = output.split('\n');
+    const titleLine = lines.find((line) => line.includes('自定义横幅'))!;
     const leftPad = titleLine.length - titleLine.trimStart().length;
-    expect(leftPad).toBe(17);
+    expect(leftPad).toBe(18);
     expect(displayWidth(titleLine.trim())).toBe(10);
+
+    const artLines = lines.slice(1, 6);
+    for (const line of artLines) {
+      expect(displayWidth(line)).toBe(46);
+    }
+    const decoration = lines.find((line) => line.startsWith('═'))!;
+    expect(displayWidth(decoration)).toBe(46);
   });
 
   it('showSuccess 的左右留白相等（emoji 按 2 列计）', () => {

@@ -6,21 +6,37 @@
  */
 
 import { colors } from './colors.js';
-import { BANNER_WIDTH } from './constants.js';
 import { displayWidth } from './width.js';
 
 /**
- * VAKAO UI ASCII 艺术字（纯文本，无 ANSI）
+ * VAKAO UI ASCII 艺术字原始行（纯文本，无 ANSI）
  *
- * 使用 figlet Standard 字体生成，5 行。
- * 使用 String.raw 避免反斜杠转义破坏 figlet 字形。
+ * 使用 figlet Standard 字体生成，5 行；figlet 输出各行宽度并不相等
+ * （实测 45/46 混排），因此需要补齐。
  */
-export const asciiArtPlain: string = String.raw`
+const ART_LINES: string[] = String.raw`
  __     ___    _  __    _    ___    _   _ ___
  \ \   / / \  | |/ /   / \  / _ \  | | | |_ _|
   \ \ / / _ \ | ' /   / _ \| | | | | | | || |
    \ V / ___ \| . \  / ___ \ |_| | | |_| || |
-    \_/_/   \_\_|\_\/_/   \_\___/   \___/|___|`;
+    \_/_/   \_\_|\_\/_/   \_\___/   \___/|___|`.split('\n');
+
+/**
+ * 艺术字实际宽度
+ *
+ * 由最长行推导，而不是写死常量：figlet 字形的真实宽度是 46，
+ * 此前按 44 画装饰线会导致短线 2 列、标题也整体左偏。
+ */
+const ART_WIDTH = Math.max(...ART_LINES.map((line) => line.length));
+
+/**
+ * VAKAO UI ASCII 艺术字（纯文本，无 ANSI）
+ *
+ * 以 ART_WIDTH 右补齐每行，保证 5 行显示宽度严格相等。
+ */
+export const asciiArtPlain: string = ART_LINES.map((line) =>
+  line.length === 0 ? line : line.padEnd(ART_WIDTH),
+).join('\n');
 
 /**
  * 带青色的 ASCII 艺术字
@@ -63,9 +79,10 @@ function centerTitle(title: string, width: number): string {
  * ```
  */
 export function createBanner(title: string): string {
-  const line = '═'.repeat(BANNER_WIDTH);
+  // ART_WIDTH 在本文件内由 asciiArtPlain 的最长行推导，不使用外部常量
+  const line = '═'.repeat(ART_WIDTH);
   return `${asciiArt()}
-${colors.magenta}${colors.bright}${centerTitle(title, BANNER_WIDTH)}${colors.reset}
+${colors.magenta}${colors.bright}${centerTitle(title, ART_WIDTH)}${colors.reset}
 ${colors.dim}${line}${colors.reset}
 `;
 }
