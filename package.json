@@ -24,6 +24,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "prepublishOnly": "pnpm run lint && pnpm run format:check && pnpm run typecheck && pnpm test && pnpm run build",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "demo": "node scripts/demo.mjs"
