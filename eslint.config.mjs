@@ -19,9 +19,9 @@ export default tseslint.config(
   // 关闭与 Prettier 冲突的格式规则
   prettierConfig,
 
-  // 项目源码
+  // 项目源码与单测
   {
-    files: ['src/**/*.ts'],
+    files: ['src/**/*.ts', 'tests/**/*.ts'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
