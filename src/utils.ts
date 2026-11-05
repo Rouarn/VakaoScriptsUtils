@@ -6,6 +6,7 @@
  */
 
 import { colors } from './colors.js';
+import { displayWidth } from './width.js';
 import { log } from './logger.js';
 
 /**
@@ -14,39 +15,6 @@ import { log } from './logger.js';
  * 与 banner 艺术字宽度（44）协调，统一 separator/showSuccess 的视觉宽度。
  */
 const DEFAULT_LINE_WIDTH = 60;
-
-/**
- * 计算字符串在终端的显示宽度
- *
- * CJK（中日韩）字符按 2 列计算，其余字符按 1 列计算。
- * 用于消息居中时正确处理中文等宽字符。
- *
- * @param str - 待计算的字符串
- * @returns 终端显示宽度
- */
-function displayWidth(str: string): number {
-  let width = 0;
-  for (const ch of str) {
-    const code = ch.codePointAt(0) ?? 0;
-    if (
-      (code >= 0x1100 && code <= 0x115f) ||
-      (code >= 0x2e80 && code <= 0x303e) ||
-      (code >= 0x3040 && code <= 0x33bf) ||
-      (code >= 0x3400 && code <= 0x4dbf) ||
-      (code >= 0x4e00 && code <= 0xa4cf) ||
-      (code >= 0xac00 && code <= 0xd7af) ||
-      (code >= 0xf900 && code <= 0xfaff) ||
-      (code >= 0xfe30 && code <= 0xfe6f) ||
-      (code >= 0xff01 && code <= 0xff60) ||
-      (code >= 0xffe0 && code <= 0xffe6)
-    ) {
-      width += 2;
-    } else {
-      width += 1;
-    }
-  }
-  return width;
-}
 
 /**
  * 显示分隔线

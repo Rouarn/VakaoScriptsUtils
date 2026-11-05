@@ -15,30 +15,8 @@ import {
   typeColors,
   asciiArt,
   createBanner,
+  padEndDisplay,
 } from '../dist/index.mjs';
-
-/**
- * 计算字符串在终端的显示宽度
- *
- * ASCII 字符按 1 列，CJK 与 emoji 按 2 列；跳过 variation selector (U+FE0F)
- * 与零宽连字 (U+200D)，避免 emoji 宽度被多算，保证 padEnd 对齐准确。
- */
-function displayWidth(str) {
-  let w = 0;
-  for (const ch of str) {
-    const code = ch.codePointAt(0);
-    if (code === 0xfe0f || code === 0x200d) continue;
-    if (code < 0x80) w += 1;
-    else w += 2;
-  }
-  return w;
-}
-
-/** 按显示宽度右填充空格，使后续内容对齐 */
-function padEndDisplay(str, width) {
-  const pad = Math.max(0, width - displayWidth(str));
-  return str + ' '.repeat(pad);
-}
 
 // ==================== 1. 横幅 ====================
 showBanner('Vakao UI 构建工具');

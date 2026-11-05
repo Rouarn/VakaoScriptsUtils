@@ -67,6 +67,9 @@ import { log } from './logger.js';
 /** 通用工具函数 */
 import { separator, showSuccess, handleError } from './utils.js';
 
+/** 终端显示宽度计算 */
+import { displayWidth, padEndDisplay, stripAnsi } from './width.js';
+
 // ==================== 类型导出 ====================
 
 /**
@@ -149,3 +152,23 @@ export { showSuccess };
  * @type {Function}
  */
 export { handleError };
+
+// ==================== 终端宽度计算 ====================
+
+/**
+ * 剥离 ANSI 转义序列
+ * @type {Function}
+ */
+export { stripAnsi };
+
+/**
+ * 计算字符串的终端显示宽度（CJK / Emoji 记 2 列）
+ * @type {Function}
+ */
+export { displayWidth };
+
+/**
+ * 按显示宽度右填充空格
+ * @type {Function}
+ */
+export { padEndDisplay };
