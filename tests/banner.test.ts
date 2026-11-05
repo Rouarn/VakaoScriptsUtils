@@ -1,6 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { createBanner, displayWidth, showSuccess, stripAnsi } from '../src/index.js';
+import {
+  asciiArt,
+  asciiArtPlain,
+  createBanner,
+  displayWidth,
+  showSuccess,
+  stripAnsi,
+} from '../src/index.js';
 
 describe('banner 与 showSuccess 对齐', () => {
   beforeEach(() => {
@@ -25,6 +32,20 @@ describe('banner 与 showSuccess 对齐', () => {
     }
     const decoration = lines.find((line) => line.startsWith('═'))!;
     expect(displayWidth(decoration)).toBe(46);
+  });
+
+  it('asciiArtPlain 无 ANSI，asciiArt() 在强制着色时带 ANSI', () => {
+    expect(asciiArtPlain).not.toContain(String.fromCharCode(27));
+    // NO_COLOR 优先级高于 FORCE_COLOR，需先移除才能验证着色分支
+    delete process.env.NO_COLOR;
+    process.env.FORCE_COLOR = '1';
+    try {
+      const art = asciiArt();
+      expect(art).toContain(String.fromCharCode(27));
+      expect(stripAnsi(art)).toBe(asciiArtPlain);
+    } finally {
+      delete process.env.FORCE_COLOR;
+    }
   });
 
   it('超长标题/消息不会越过装饰线', () => {

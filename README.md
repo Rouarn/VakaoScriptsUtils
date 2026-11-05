@@ -6,7 +6,7 @@ Vakao-UI 脚本工具库：统一提供颜色、图标、横幅展示、日志�
 ## 特性
 
 - 统一日志与样式：`log`、`colors`、`icons`、`typeColors`
-- 横幅展示：`showBanner`、`createBanner`、`asciiArt`
+- 横幅展示：`showBanner`、`createBanner`、`asciiArt`、`asciiArtPlain`
 - 常用工具：`separator`、`showSuccess`、`handleError`
 - 丰富的 ANSI 样式：8 种前景色 + 8 种亮色变体 + 8 种背景色 + 5 种文本样式（下划线/斜体/删除线/反转/隐藏）
 - 兼容 ESM/CJS：通过 `exports` 字段同时支持 `import` 与 `require`
@@ -118,7 +118,8 @@ console.log(`${colors.bgRed}错误${colors.reset} ${colors.underline}下划线${
   - `LogType` = `info` | `success` | `warning` | `error` | `command` | `build` | `publish` | `deploy` | `check` | `copy` | `clean`
 - `showBanner(title: string): void` — 直接输出横幅
 - `createBanner(title: string): string` — 返回横幅字符串（不打印）
-- `asciiArt: string` — VAKAO UI ASCII 艺术字常量
+- `asciiArt(): string` — VAKAO UI ASCII 艺术字（带青色，颜色能力运行期判定）
+- `asciiArtPlain: string` — 同上，纯文本无 ANSI，便于自定义着色
 
 ### 工具函数
 
