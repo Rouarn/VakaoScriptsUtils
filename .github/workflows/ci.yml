@@ -34,7 +34,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: pnpm
 
-      # --ignore-scripts 跳过 prepare 构建，构建由下方独立步骤执行，
+      # --ignore-scripts 跳过 prepack 等生命周期脚本，构建由下方独立步骤执行，
       # 避免同一份产物在 CI 里构建两次。
       - name: Install
         run: pnpm install --frozen-lockfile --ignore-scripts

@@ -26,7 +26,7 @@
   "packageManager": "pnpm@12.16.1",
   "scripts": {
     "build": "tsup",
-    "prepare": "pnpm run build",
+    "prepack": "pnpm run build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
