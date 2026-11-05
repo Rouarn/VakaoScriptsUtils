@@ -8,15 +8,9 @@
 import { writeSync } from 'node:fs';
 
 import { colors } from './colors.js';
+import { LINE_WIDTH } from './constants.js';
 import { displayWidth } from './width.js';
 import { formatLog } from './logger.js';
-
-/**
- * 默认装饰线宽度
- *
- * 与 banner 艺术字宽度（44）协调，统一 separator/showSuccess 的视觉宽度。
- */
-const DEFAULT_LINE_WIDTH = 60;
 
 /**
  * 显示分隔线
@@ -38,7 +32,7 @@ const DEFAULT_LINE_WIDTH = 60;
  * // 输出：══════════════════════════════════════════════════════════
  * ```
  */
-export function separator(char: string = '─', length: number = DEFAULT_LINE_WIDTH): void {
+export function separator(char: string = '─', length: number = LINE_WIDTH): void {
   console.log(`${colors.dim}${char.repeat(length)}${colors.reset}`);
 }
 
@@ -64,9 +58,9 @@ export function separator(char: string = '─', length: number = DEFAULT_LINE_WI
  * ```
  */
 export function showSuccess(message: string): void {
-  const line = '═'.repeat(DEFAULT_LINE_WIDTH);
+  const line = '═'.repeat(LINE_WIDTH);
   const fullMessage = `🎉 ${message} 🎉`;
-  const padding = Math.max(0, Math.floor((DEFAULT_LINE_WIDTH - displayWidth(fullMessage)) / 2));
+  const padding = Math.max(0, Math.floor((LINE_WIDTH - displayWidth(fullMessage)) / 2));
   const centered = ' '.repeat(padding) + fullMessage;
 
   console.log(`${colors.dim}${line}${colors.reset}`);

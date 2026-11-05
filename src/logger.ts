@@ -8,15 +8,8 @@
 
 import type { LogType } from './types.js';
 import { colors, typeColors } from './colors.js';
+import { LOG_PREFIX_WIDTH } from './constants.js';
 import { icons } from './icons.js';
-
-/**
- * 时间戳后空格的固定宽度
- *
- * `[HH:MM:SS]` 占 10 字符，后接 1 个空格，共 11 字符。
- * 多行消息的非首行使用此宽度的空格做缩进对齐。
- */
-const TIMESTAMP_PREFIX_WIDTH = 11;
 
 /**
  * 生成固定格式的时间戳字符串 HH:MM:SS
@@ -72,7 +65,7 @@ export function log(message: string, type: LogType = 'info'): void {
   const cleanMessage = message.replace(/^\n+|\n+$/g, '');
 
   // 多行消息：非首行缩进对齐到时间戳之后
-  const indent = ' '.repeat(TIMESTAMP_PREFIX_WIDTH);
+  const indent = ' '.repeat(LOG_PREFIX_WIDTH);
   const indentedMessage = cleanMessage
     .split('\n')
     .map((line, index) => (index === 0 ? line : indent + line))
@@ -111,7 +104,7 @@ export function formatLog(message: string, type: LogType = 'info'): string {
   const icon = icons[type] || icons.info;
   const color = typeColors[type] || typeColors.info;
   const cleanMessage = message.replace(/^\n+|\n+$/g, '');
-  const indent = ' '.repeat(TIMESTAMP_PREFIX_WIDTH);
+  const indent = ' '.repeat(LOG_PREFIX_WIDTH);
   const indentedMessage = cleanMessage
     .split('\n')
     .map((line, index) => (index === 0 ? line : indent + line))

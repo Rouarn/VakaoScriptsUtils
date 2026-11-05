@@ -6,13 +6,8 @@
  */
 
 import { colors } from './colors.js';
+import { BANNER_WIDTH } from './constants.js';
 import { displayWidth } from './width.js';
-
-/**
- * ASCII 艺术字宽度（figlet Standard "VAKAO UI" 输出宽度）
- * @internal
- */
-const BANNER_WIDTH = 44;
 
 /**
  * VAKAO UI ASCII 艺术字（纯文本，无 ANSI）
