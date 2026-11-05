@@ -1,2 +1,4 @@
+# 单包仓库：此文件仅用于声明依赖构建脚本白名单。
+# 不允许任意包执行 postinstall，只放行构建产物必需的 esbuild。
 allowBuilds:
   esbuild: true
