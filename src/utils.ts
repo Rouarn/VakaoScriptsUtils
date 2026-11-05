@@ -75,13 +75,46 @@ export function showSuccess(message: string): void {
 }
 
 /**
+ * 把任意错误值转成可读文本（内部）
+ *
+ * JS 消费方可能抛出对象、数字甚至 undefined，直接拼字符串会得到
+ * "[object Object]"，因此优先取 Error.message，对象则尝试 JSON 序列化。
+ *
+ * @param error - 任意错误值
+ * @returns 可读的错误描述
+ */
+function describeError(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  if (typeof error === 'string') {
+    return error;
+  }
+  if (error === null || error === undefined) {
+    return String(error);
+  }
+  if (typeof error === 'object') {
+    try {
+      const json = JSON.stringify(error);
+      // JSON.stringify 对循环引用抛错，对无法序列化的值返回 undefined
+      if (json !== undefined) {
+        return json;
+      }
+    } catch {
+      // 落到 String(error)
+    }
+  }
+  return String(error);
+}
+
+/**
  * 错误处理函数
  *
- * 统一的错误处理机制：输出错误信息并终止程序执行。
+ * 统一的错误处理机制：同步写出错误信息到 stderr 并终止程序执行。
  * 仅输出错误消息正文，不展开 stack，避免输出噪音。
  *
  * @param message - 错误描述信息
- * @param error - 错误对象或错误消息字符串
+ * @param error - 任意错误值（Error、字符串、普通对象均可）
  * @throws 此函数会调用 process.exit(1) 终止程序
  *
  * @example
@@ -93,8 +126,8 @@ export function showSuccess(message: string): void {
  * }
  * ```
  */
-export function handleError(message: string, error: Error | string): never {
-  const detail = error instanceof Error ? error.message : error;
+export function handleError(message: string, error: unknown): never {
+  const detail = describeError(error);
   const text = formatLog(`${message}: ${detail}`, 'error');
 
   // 用 fs.writeSync 同步写入 fd 2：不经过流缓冲，也不依赖事件循环，
