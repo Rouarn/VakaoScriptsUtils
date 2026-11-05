@@ -17,8 +17,8 @@ import { formatLog } from './logger.js';
  *
  * 在控制台输出指定字符组成的分隔线，使用暗淡样式显示，不会过于突出。
  *
- * @param char - 用于构成分隔线的字符（默认 '─'）
- * @param length - 分隔线的长度（字符数量，默认 60）
+ * @param char - 用于构成分隔线的字符（默认 '─'，多字符时只取第一个）
+ * @param length - 分隔线的字符数量（默认 60；负数/非有限数按 0 处理，小数取整）
  *
  * @example
  * ```javascript
@@ -33,7 +33,11 @@ import { formatLog } from './logger.js';
  * ```
  */
 export function separator(char: string = '─', length: number = LINE_WIDTH): void {
-  console.log(`${colors.dim}${char.repeat(length)}${colors.reset}`);
+  // 负数/NaN 会让 String.repeat 抛 RangeError，这里统一钳到合法范围；
+  // 多字符入参只取首个码点，避免重复后宽度被放大。
+  const unit = [...char][0] ?? '─';
+  const count = Number.isFinite(length) ? Math.max(0, Math.trunc(length)) : 0;
+  console.log(`${colors.dim}${unit.repeat(count)}${colors.reset}`);
 }
 
 /**
