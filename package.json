@@ -38,7 +38,8 @@
     "demo": "node scripts/demo.mjs"
   },
   "files": [
-    "dist"
+    "dist",
+    "CHANGELOG.md"
   ],
   "keywords": [
     "vakao-ui",
