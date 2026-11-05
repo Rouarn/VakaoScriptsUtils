@@ -78,15 +78,44 @@ export function log(message: string, type: LogType = 'info'): void {
     .map((line, index) => (index === 0 ? line : indent + line))
     .join('\n');
 
+  // 错误日志走 stderr：便于 `2>` 单独捕获，也不会混进正常输出流。
+  // console.error 由 Node 保证写入 fd 2，进程未退出时不会被丢弃。
+  const write = type === 'error' ? console.error : console.log;
+
   if (startsWithNewline) {
-    console.log('');
+    write('');
   }
 
-  console.log(
+  write(
     `${colors.dim}[${timestamp}]${colors.reset} ${icon} ${color}${indentedMessage}${colors.reset}`,
   );
 
   if (endsWithNewline) {
-    console.log('');
+    write('');
   }
+}
+
+/**
+ * 生成单行日志文本（不含换行符）
+ *
+ * 供需要同步写出的场景复用（例如 handleError 在进程退出前写 stderr），
+ * 保证同步写出与 log 的输出格式完全一致。
+ *
+ * @param message - 日志消息
+ * @param type - 日志类型
+ * @returns 已着色、已缩进的日志文本
+ * @internal
+ */
+export function formatLog(message: string, type: LogType = 'info'): string {
+  const timestamp = getTimestamp();
+  const icon = icons[type] || icons.info;
+  const color = typeColors[type] || typeColors.info;
+  const cleanMessage = message.replace(/^\n+|\n+$/g, '');
+  const indent = ' '.repeat(TIMESTAMP_PREFIX_WIDTH);
+  const indentedMessage = cleanMessage
+    .split('\n')
+    .map((line, index) => (index === 0 ? line : indent + line))
+    .join('\n');
+
+  return `${colors.dim}[${timestamp}]${colors.reset} ${icon} ${color}${indentedMessage}${colors.reset}`;
 }

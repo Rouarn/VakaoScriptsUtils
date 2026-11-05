@@ -5,9 +5,11 @@
  * 装饰线宽度统一为 60，与横幅艺术字宽度协调，保证整体视觉一致。
  */
 
+import { writeSync } from 'node:fs';
+
 import { colors } from './colors.js';
 import { displayWidth } from './width.js';
-import { log } from './logger.js';
+import { formatLog } from './logger.js';
 
 /**
  * 默认装饰线宽度
@@ -93,6 +95,16 @@ export function showSuccess(message: string): void {
  */
 export function handleError(message: string, error: Error | string): never {
   const detail = error instanceof Error ? error.message : error;
-  log(`${message}: ${detail}`, 'error');
+  const text = formatLog(`${message}: ${detail}`, 'error');
+
+  // 用 fs.writeSync 同步写入 fd 2：不经过流缓冲，也不依赖事件循环，
+  // 因此紧接着调用 process.exit(1) 不会像 console.log 那样出现
+  // "退出前异步写未落地、错误信息被截断" 的问题。
+  try {
+    writeSync(2, `${text}\n`);
+  } catch {
+    // 极端环境下 stderr 不可写（例如已关闭），至少保证退出码正确
+  }
+
   process.exit(1);
 }
