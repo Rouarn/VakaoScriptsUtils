@@ -5,11 +5,14 @@
  * 整合了颜色配置、图标管理、横幅显示、日志记录和通用工具函数。
  *
  * 模块结构：
- * - colors.js: 颜色和样式配置
- * - icons.js: 图标配置
- * - banner.js: 横幅显示功能
- * - logger.js: 日志记录功能
- * - utils.js: 通用工具函数
+ * - types.ts: 对外类型定义（LogType / Colors）
+ * - colors.ts: 颜色和样式配置（按终端能力动态返回）
+ * - icons.ts: 图标配置
+ * - constants.ts: 宽度与缩进常量
+ * - width.ts: 终端显示宽度计算
+ * - banner.ts: 横幅显示功能
+ * - logger.ts: 日志记录功能
+ * - utils.ts: 通用工具函数
  *
  * 主要特性：
  * - 🎨 丰富的颜色支持：支持多种终端颜色和样式
@@ -46,7 +49,7 @@
  * console.log(`${colors.green}成功${colors.reset}`);
  * ```
  *
- * @version 0.0.1
+ * @version 以 package.json 为准（不在源码中重复维护，避免版本漂移）
  * @author Vakao UI Team
  */
 

@@ -50,7 +50,7 @@ function getTimestamp(): string {
  * // 输出：[14:30:25] ❌ 文件不存在
  *
  * log('正在编译 TypeScript 文件', 'build');
- * // 输出：[14:30:25] 🛠️ 正在编译 TypeScript 文件
+ * // 输出：[14:30:25] 🔨 正在编译 TypeScript 文件
  * ```
  */
 export function log(message: string, type: LogType = 'info'): void {
