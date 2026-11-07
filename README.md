@@ -42,14 +42,7 @@ console.log(`${colors.bgRed}错误${colors.reset} ${colors.underline}下划线${
 ## CJS 使用
 
 ```js
-const {
-  log,
-  showBanner,
-  showSuccess,
-  separator,
-  colors,
-  icons,
-} = require('@vakao/scripts-utils');
+const { log, showBanner, showSuccess, separator, colors, icons } = require('@vakao/scripts-utils');
 
 showBanner('Vakao UI 构建工具');
 log('开始构建项目', 'build');
