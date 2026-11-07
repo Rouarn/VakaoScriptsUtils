@@ -1,4 +1,4 @@
-# @vakao-ui/scripts-utils
+# @vakao/scripts-utils
 
 Vakao-UI 脚本工具库：统一提供颜色、图标、横幅展示、日志输出与常用工具函数。
 支持 ESM 与 CJS 双构建，并附带 TypeScript 类型声明。
@@ -20,16 +20,16 @@ Vakao-UI 脚本工具库：统一提供颜色、图标、横幅展示、日志�
 
 ```bash
 # pnpm
-pnpm add @vakao-ui/scripts-utils
+pnpm add @vakao/scripts-utils
 
 # npm
-npm i @vakao-ui/scripts-utils
+npm i @vakao/scripts-utils
 ```
 
 ## ESM 使用
 
 ```ts
-import { log, showBanner, showSuccess, separator, colors, icons } from '@vakao-ui/scripts-utils';
+import { log, showBanner, showSuccess, separator, colors, icons } from '@vakao/scripts-utils';
 
 showBanner('Vakao UI 构建工具');
 log('开始构建项目', 'build');
@@ -49,7 +49,7 @@ const {
   separator,
   colors,
   icons,
-} = require('@vakao-ui/scripts-utils');
+} = require('@vakao/scripts-utils');
 
 showBanner('Vakao UI 构建工具');
 log('开始构建项目', 'build');
@@ -144,10 +144,10 @@ console.log(`${colors.bgRed}错误${colors.reset} ${colors.underline}下划线${
 
 ## 发布步骤（私有 NPM 仓库）
 
-1. **配置 `.npmrc`**（仅 `@vakao-ui` scope 走私有源，不影响其他包）：
+1. **配置 `.npmrc`**（仅 `@vakao` scope 走私有源，不影响其他包）：
 
    ```ini
-   @vakao-ui:registry=http://your-registry-host:port/
+   @vakao:registry=http://your-registry-host:port/
    //your-registry-host:port/:_authToken=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
    ```
 
@@ -175,7 +175,7 @@ console.log(`${colors.bgRed}错误${colors.reset} ${colors.underline}下划线${
 5. **验证安装**（在另一个项目）：
 
    ```bash
-   pnpm add @vakao-ui/scripts-utils
+   pnpm add @vakao/scripts-utils
    ```
 
 ## 开发脚本
@@ -188,6 +188,6 @@ console.log(`${colors.bgRed}错误${colors.reset} ${colors.underline}下划线${
 
 ## 常见问题
 
-- CJS 项目报错 `ERR_REQUIRE_ESM`：请使用 `require('@vakao-ui/scripts-utils')`，或升级到支持 ESM 的环境。
-- TypeScript 类型未生效：确认 `node_modules/@vakao-ui/scripts-utils/dist/index.d.ts` 存在，且你的 TS 项目未排除 `node_modules` 的类型解析。
+- CJS 项目报错 `ERR_REQUIRE_ESM`：请使用 `require('@vakao/scripts-utils')`，或升级到支持 ESM 的环境。
+- TypeScript 类型未生效：确认 `node_modules/@vakao/scripts-utils/dist/index.d.ts` 存在，且你的 TS 项目未排除 `node_modules` 的类型解析。
 - 中文标题居中偏移：库已内置 CJK 宽字符（按 2 列）显示宽度计算，正常情况下居中正确。

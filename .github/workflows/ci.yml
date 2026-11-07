@@ -57,4 +57,4 @@ jobs:
       - name: Package smoke test
         run: |
           pnpm pack --pack-destination /tmp
-          test -f /tmp/vakao-ui-scripts-utils-*.tgz
+          test -f /tmp/vakao-scripts-utils-*.tgz
